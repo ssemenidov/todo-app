@@ -12,7 +12,11 @@ function App() {
       .orderBy("timestamp", "desc")
       .onSnapshot((snaphot) => {
         setTodos(
-          snaphot.docs.map((doc) => ({ id: doc.id, title: doc.data().title }))
+          snaphot.docs.map((doc) => ({
+            id: doc.id,
+            title: doc.data().title,
+            check: doc.data().check,
+          }))
         );
       });
   }, []);
@@ -20,8 +24,8 @@ function App() {
     e.preventDefault();
     db.collection("todos").add({
       title: input,
-      checked: false,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      check: false,
     });
     setInput("");
   };
